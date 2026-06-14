@@ -54,21 +54,24 @@ def _get_cache(db: Session, query_key: str):
 
 
 def _set_cache(db: Session, source: str, query_key: str, data: list):
-    now = datetime.datetime.utcnow()
-    entry = CollectedDataCache(
-        source=source,
-        query_key=query_key,
-        data=data,
-        fetched_at=now,
-        expires_at=now + datetime.timedelta(hours=CACHE_TTL_HOURS),
-    )
-    db.add(entry)
     try:
+        now = datetime.datetime.utcnow()
+        entry = CollectedDataCache(
+            source=source,
+            query_key=query_key,
+            data=data,
+            fetched_at=now,
+            expires_at=now + datetime.timedelta(hours=CACHE_TTL_HOURS),
+        )
+        db.add(entry)
         db.commit()
-    except Exception:
-        db.rollback()
-
-
+    except Exception as e:
+        logger.warning(f"Failed to cache news data: {e}")
+        try:
+            db.rollback()
+        except Exception:
+            pass
+        
 def fetch_newsapi(
     tickers: list[str], keywords: list[str] = None, max_calls: int = 5
 ) -> list[dict]:
