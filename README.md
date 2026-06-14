@@ -1,3 +1,13 @@
+---
+title: Business Intelligence Sentinel
+emoji: 🛡️
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # Business Intelligence Sentinel 🛡️
 
 An autonomous AI system that crawls financial data sources, runs a two-stage deep learning sentiment pipeline over collected news, reasons over signals using a local LLM, and delivers a structured intelligence report entirely without human intervention.
@@ -28,6 +38,7 @@ Access the dashboard at `http://localhost:3000`.
 ### 3. Run Locally (Development)
 
 **Backend:**
+
 ```bash
 cd backend
 pip install -r requirements.txt
@@ -35,6 +46,7 @@ python -m uvicorn app.main:app --reload --port 8000
 ```
 
 **Frontend:**
+
 ```bash
 cd frontend
 npm install
